@@ -56,6 +56,31 @@ namespace BinaryTree
                 AddToCorrectNode(parent.RightChild, addNode);
         }
 
+        public bool Contains(T data)
+        {
+            if (root == null)
+                return false;
+            else
+                return CheckTreeForContent(root, data);
+        }
 
+        private bool CheckTreeForContent(Node<T> parent, T data)
+        {
+            if (Comparer<T>.Default.Compare(parent.Data, data) == 0)
+                return true;
+            else if (parent.IsLeaf())
+                return false;
+            else if (Comparer<T>.Default.Compare(parent.Data, data) > 0 && !parent.HasLeftChild())
+                return false;
+            else if (Comparer<T>.Default.Compare(parent.Data, data) < 0 && !parent.HasRightChild())
+                return false;
+            else if (Comparer<T>.Default.Compare(parent.Data, data) > 0)
+                return CheckTreeForContent(parent.LeftChild, data);
+            else if (Comparer<T>.Default.Compare(parent.Data, data) < 0)
+                return CheckTreeForContent(parent.RightChild, data);
+            else
+                return false;
+
+        }
     }
 }
